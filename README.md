@@ -1,5 +1,6 @@
 运行命令
 ```sh
+npm install
 npm run dev
 ```
 
