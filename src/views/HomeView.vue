@@ -6,7 +6,7 @@
 
 
   <audio autoplay controls id="music" height="0" width="0" hidden="ture">
-    <source src="../assets/homo.mp3" type="audio/mpeg" />
+    <source src="@/assets/homo.mp3" type="audio/mpeg" />
   </audio>
 
     <ul>
