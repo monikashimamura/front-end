@@ -47,22 +47,16 @@ const toLogin = async() => {
           router.push('administrator');
         }
       }
+      else {
+        //登录失败
+        alert(res.data.message)
+      }
     }
   )
 }
 
 const toRegister = async () => {
-  console.log(store.token);
-  await axios.get(store.url + '/user/getAll', {
-    headers: {
-      Authorization: store.token
-    }
-  }
-  ).then(
-    res => {
-      console.log(res.data);
-    }
-  )
+  router.push('register');
 
 }
 
@@ -90,13 +84,13 @@ const toRegister = async () => {
 			</div>
 
 
-            
+
       </div>
 
 
       <button class="u-btn" @click="toLogin">登录</button>
 	  <button class="m-btn" @click="toRegister">注册</button>
-      
+
   </div>
 </template>
 
