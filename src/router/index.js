@@ -19,20 +19,8 @@ const router = createRouter({
     },
     {
       path: '/register',
+      name: 'register',
       component: () => import('../views/login/RegisterView.vue')
-    },
-    {
-      path: '/student',
-      children: [
-        {
-          path: '',
-          component: () => import('../views/student/StudentHomeView.vue'),
-        },
-        {
-          path: 'course',
-          component: () => import('../views/student/StudentCourseView.vue'),
-        }
-      ]
     }
   ]
 })
