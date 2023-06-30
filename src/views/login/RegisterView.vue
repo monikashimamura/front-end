@@ -36,7 +36,7 @@ interface reqData {
 }
 
 const formSize = ref('default')
-const ruleFormRef = ref<FormInstance>()
+let registerRef;
 
 const register = reactive({
   name: "",
@@ -87,16 +87,17 @@ const genReq = () => {
 const checkAge = (rule: any, value: number, callback: any) => {
   if (!value) {
     return callback(new Error('请输入年龄'));
-  }
-  if (value < 16 || value > 65) {
-    return callback(new Error('年龄应在16到65岁之间'))
-  }
+  } else if (value < 16 || value > 65) {
+    return callback(new Error('年龄应在16到65岁之间'));
+  } else
+    return callback();
 }
 
 const checkUserType = (rule: any, value: any, callback: any) => {
-  if ("" == value) {
-    return callback(new Error('请选择用户类型'))
+  if ("" === value) {
+    return callback(new Error('请选择用户类型'));
   }
+  return callback();
 }
 
 const strIsTele = (s: string) => {
@@ -112,7 +113,8 @@ const strIsTele = (s: string) => {
 const checkTele = (rule: any, value: string, callback: any) => {
   if (!strIsTele(value)) {
     return callback(new Error('请输入正确手机号'))
-  }
+  } else
+    return callback();
 }
 
 const checkPassword = (rule: any, value: string, callback: any) => {
@@ -122,7 +124,7 @@ const checkPassword = (rule: any, value: string, callback: any) => {
   }
 
   if (reg.test(value)) {
-    return true;
+    return callback();
   } else {
     return callback(new Error('密码不能包含除 *、-、+、_ 以外的特殊字符'));
   }
@@ -132,20 +134,21 @@ const checkConfirmPassword = (rule: any, value: string, callback: any) => {
   if (value != register.password) {
     return callback(new Error('两次密码不一致'));
   }
+  return callback();
 }
 
 const checkInviteCode = (rule: any, value: string, callback: any) => {
   const reg = /^[0-9a-zA-Z]+$/;
 
   if (reg.test(value)) {
-    return true;
+    return callback();
   } else {
     return callback(new Error('请输入正确格式的注册码'));
   }
 }
 
 // register form rules
-const rules = reactive<FormRules<RegisterForm>>({
+const rules = reactive<FormRules<typeof register>>({
   name: [
     { type: 'string', required: true, message: '请输入姓名' },
     { min: 2, max: 5, message: '长度在 2 到 5 个字符' }
@@ -178,12 +181,38 @@ const rules = reactive<FormRules<RegisterForm>>({
 })
 
 // SUBMIT
+
+const register_is_valid = (): boolean => {
+
+  // check rules
+  registerRef.validate((valid) => {
+    if (!valid) {
+      alert("请正确填写注册信息！")
+      return false;
+    }
+  })
+
+  // remove invite code when type is student
+  if (!register.is_teacher) {
+    register.invite_code = "";
+  }
+
+  return true;
+}
+
 const toRegister = async () => {
   console.log("register try");
+  let data;
+  if (register_is_valid()) {
+    data = formReqData(register);
+  } else {
+    console.log("register fail");
+    return;
+  }
   await axios({
     method: 'post',
     url: store.url + '/user/register',
-    data: formReqData(register),
+    data: data,
   }).then(
     res => {
       if(res.data.code == 200){
@@ -209,11 +238,12 @@ const toRegister = async () => {
     </div>
 
     <el-form
+      ref="registerRef"
       :model="register"
-      :ref="ruleFormRef"
       :rules="rules"
       label-width="120px"
       class="demo-ruleForm"
+      :size="formSize"
     >
       <el-form-item label="姓名" prop="name">
         <el-input v-model="register.name" placeholder="请输入姓名"></el-input>
