@@ -20,17 +20,19 @@ const login = reactive({
 
 });
 
-// const app = reactive({
-
-// })
+const formReqData = (data) => {
+  return {
+    name: data.name,
+    password: computeHash(data.password)
+  }
+}
 
 const toLogin = async() => {
   console.log("login try");
-  login.login.password = computeHash(login.login.password);
   await axios({
     method: 'post',
     url: store.url + '/user/login',
-		data: login.login,
+		data: formReqData(login.login),
   }).then(
     res => {
       if(res.data.code == 200){ //登录成功
