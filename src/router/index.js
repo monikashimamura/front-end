@@ -21,6 +21,34 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/login/RegisterView.vue')
+    },
+    {
+      path: '/teacher',
+      name: 'teacher',
+      // redirect: (to => {return {path: '/teacher/mycourse'}}),
+      component: () => import('../views/teacher/TeacherHomeView.vue'),
+      children: [
+        {
+          path: '/teacher/information',
+          name: 'information',
+          component: () => import('../views/teacher/Information.vue')
+        },
+        {
+          path: '/teacher/mycourse',
+          name: 'mycourse',
+          component: () => import('../views/teacher/MyCourse.vue')
+        },
+        {
+          path: '/teacher/addcourse',
+          name: 'addcourse',
+          component: () => import('../views/teacher/Addcourse.vue')
+        },
+        {
+          path: '/teacher/itembank',
+          name: 'itembank',
+          component: () => import('../views/teacher/Itembank.vue')
+        }
+      ]
     }
   ]
 })
