@@ -84,6 +84,13 @@ const genReq = () => {
 }
 
 // form rule validators
+const checkName =  (rule: any, value: string, callback: any) => {
+  let reg = /^[\u4e00-\u9fa5a-zA-Z0-9\_]{2,32}$/;
+  if (!reg.test(value)) {
+    callback(new Error('用户名不能包含除下划线以外的特殊字符'));
+  }
+}
+
 const checkAge = (rule: any, value: number, callback: any) => {
   if (!value) {
     return callback(new Error('请输入年龄'));
@@ -150,8 +157,9 @@ const checkInviteCode = (rule: any, value: string, callback: any) => {
 // register form rules
 const rules = reactive<FormRules<typeof register>>({
   name: [
-    { type: 'string', required: true, message: '请输入姓名' },
-    { min: 2, max: 5, message: '长度在 2 到 5 个字符' }
+    { type: 'string', required: true, message: '请输入用户名' },
+    { min: 2, max: 32, message: '长度在 2 到 32 个字符' },
+    { validator: checkName, trigger: 'change' }
   ],
   is_teacher: [
     { required: true, message: '请选择账号类型', trigger: 'blur' },
@@ -245,7 +253,7 @@ const toRegister = async () => {
       class="demo-ruleForm"
       :size="formSize"
     >
-      <el-form-item label="姓名" prop="name">
+      <el-form-item label="用户名" prop="name">
         <el-input v-model="register.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="账号类型" prop="is_teacher">
