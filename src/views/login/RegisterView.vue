@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import axios from 'axios';
+import store from '../../store/store.js';
 import { useRouter } from 'vue-router';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computeHash } from './mysha256';
+import { computeHash } from './mysha256.js';
 
 function encryptPassword(password: string) {
   return computeHash(password);
@@ -19,19 +20,19 @@ interface RegisterForm {
   age: number,
   tele: string,
   introduction: string,
-  reg_code: string,
+  invite_code: string,
   password: string,
   cfm_password: string,
 }
 
 interface reqData {
   name: string,
-  sex: number,
-  age: number,
-  phone_number: string,
-  introduction: string,
   password: string,
-  type: number
+  age: number,
+  sex: number,
+  phoneNumber: string,
+  type: number,
+  invite_code: string,
 }
 
 const formSize = ref('default')
@@ -39,12 +40,12 @@ const ruleFormRef = ref<FormInstance>()
 
 const register = reactive({
   name: "",
-  is_teacher: "",
-  is_male: "",
+  is_teacher: false,
+  is_male: false,
   age: "",
   tele: "",
   introduction: "",
-  reg_code: "",
+  invite_code: "",
   password: "",
   cfm_password: "",
 });
@@ -61,21 +62,18 @@ const backToLogin = () => {
   router.push('login');
 };
 
-const toRegister = () => {
-
-}
-
 // submit register info
 
 const formReqData = (regInfo) => {
   return <reqData> <unknown> {
     name: regInfo.name,
-    sex: regInfo.is_male ? 1 : 0,
-    age: regInfo.age,
-    phone_number: regInfo.tele,
-    introduction: regInfo.introduction,
     password: encryptPassword(regInfo.password),
-    type: regInfo.is_teacher ? 2 : 1
+    age: regInfo.age,
+    sex: regInfo.is_male ? 1 : 0,
+    phoneNumber: regInfo.tele,
+    // introduction: regInfo.introduction,
+    type: regInfo.is_teacher ? 2 : 1,
+    invite_code: register.invite_code,
   }
 }
 
@@ -117,6 +115,34 @@ const checkTele = (rule: any, value: string, callback: any) => {
   }
 }
 
+const checkPassword = (rule: any, value: string, callback: any) => {
+  const reg = /[0-9a-zA-Z\*\-\+\_]+$/;
+  if (value.length < 6) {
+    return callback(new Error('密码长度不能小于6'));
+  }
+
+  if (reg.test(value)) {
+    return true;
+  } else {
+    return callback(new Error('密码不能包含除 *、-、+、_ 以外的特殊字符'));
+  }
+}
+
+const checkConfirmPassword = (rule: any, value: string, callback: any) => {
+  if (value != register.password) {
+    return callback(new Error('两次密码不一致'));
+  }
+}
+
+const checkInviteCode = (rule: any, value: string, callback: any) => {
+  const reg = /^[0-9a-zA-Z]+$/;
+
+  if (reg.test(value)) {
+    return true;
+  } else {
+    return callback(new Error('请输入正确格式的注册码'));
+  }
+}
 
 // register form rules
 const rules = reactive<FormRules<RegisterForm>>({
@@ -139,9 +165,37 @@ const rules = reactive<FormRules<RegisterForm>>({
   tele: [
     { required: true, message: '请输入手机号码' },
     { validator: checkTele, trigger: 'blur' }
+  ],
+  password: [
+    { required: true, validator: checkPassword, trigger: 'change'}
+  ],
+  cfm_password: [
+    { required: true, validator: checkConfirmPassword, trigger: 'change'}
+  ],
+  invite_code: [
+    { required: true, validator: checkInviteCode, trigger: 'change'}
   ]
-
 })
+
+// SUBMIT
+const toRegister = async () => {
+  console.log("register try");
+  await axios({
+    method: 'post',
+    url: store.url + '/user/register',
+    data: formReqData(register),
+  }).then(
+    res => {
+      if(res.data.code == 200){
+        console.log("register success");
+        router.push('login');
+      } else {
+        console.log("register fail");
+        alert(res.data.message)
+      }
+    }
+  )
+}
 
 </script>
 
@@ -165,26 +219,34 @@ const rules = reactive<FormRules<RegisterForm>>({
         <el-input v-model="register.name" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="账号类型" prop="is_teacher">
-        <el-select v-model="register.is_teacher" placeholder="请选择用户类型">
-          <el-option label="教师账号" value=1></el-option>
-          <el-option label="学生账号" value=0></el-option>
+        <el-select v-model.boolean="register.is_teacher" placeholder="请选择用户类型">
+          <el-option label="教师账号" :value=true></el-option>
+          <el-option label="学生账号" :value=false></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item v-if="register.is_teacher" label="注册码" prop="invite_code">
+        <el-input v-model="register.invite_code" placeholder="教师用户需要输入注册码"></el-input>
       </el-form-item>
       <el-form-item label="年龄" prop="age">
         <el-input v-model.number="register.age" placeholder="请输入年龄"></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="is_male">
         <el-select v-model="register.is_male" placeholder="请选择性别">
-          <el-option label="男" value=1></el-option>
-          <el-option label="女" value=0></el-option>
+          <el-option label="男" :value=true></el-option>
+          <el-option label="女" :value=false></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="电话号码" prop="tele">
-        <el-input v-model.number="register.tele" placeholder="请输入电话号码"></el-input>
+        <el-input v-model="register.tele" placeholder="请输入电话号码"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="register.password" placeholder="请设置您的密码"></el-input>
+        <el-input v-model="register.password" type="password" placeholder="请设置您的密码"></el-input>
       </el-form-item>
+      <el-form-item label="确认密码" prop="cfm_password">
+        <el-input v-model="register.cfm_password" type="password" placeholder="请确认您的密码"></el-input>
+      </el-form-item>
+
+
 
     </el-form>
 

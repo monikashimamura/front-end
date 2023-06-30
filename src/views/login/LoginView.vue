@@ -4,6 +4,8 @@ import axios from 'axios';
 import store from '@/store/store.js';
 import { UserFilled, Lock } from '@element-plus/icons-vue';
 import {useRouter} from 'vue-router';
+import { computeHash } from './mysha256.js';
+
 const router = useRouter();
 
 const login = reactive({
@@ -24,6 +26,7 @@ const login = reactive({
 
 const toLogin = async() => {
   console.log("login try");
+  login.login.password = computeHash(login.login.password);
   await axios({
     method: 'post',
     url: store.url + '/user/login',
