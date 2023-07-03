@@ -55,7 +55,7 @@ const toLogin = async () => {
         router.push("teacher");
       } else if (res.data.data.user.type == 0) {
         //成功登录管理员主页面
-        router.push("administrator");
+        router.push("admin");
       }
     } else {
       //登录失败
