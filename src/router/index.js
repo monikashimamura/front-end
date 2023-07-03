@@ -23,6 +23,7 @@ const router = createRouter({
       component: () => import('../views/login/RegisterView.vue')
     },
     {
+<<<<<<< HEAD
       path: '/student',
       children: [
         {
@@ -75,6 +76,11 @@ const router = createRouter({
           component: () => import('../views/teacher/Itembank.vue')
         }
       ]
+=======
+      path: '/admin',
+      name: 'admin',
+      component: ()=> import('../views/admin/AdminHomeView.vue')
+>>>>>>> a93fd01d47efaffad07e492688a41bac2f668c73
     }
   ]
 })
