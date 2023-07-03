@@ -14,13 +14,13 @@ const login = reactive({
   token: store.token,
   defaultName: "请输入用户名",
   defaultPassword: "请输入密码",
-  logoSrc: "src/assets/logo.jpg"
+  logoSrc: "../src/assets/logo.jpg"
 
 });
 
-// const app = reactive({
-
-// })
+const updateStore = (user) => {
+  store.user = user;
+}
 
 const toLogin = async() => {
   console.log("login try");
@@ -34,6 +34,11 @@ const toLogin = async() => {
         store.token = res.data.data.token;
         console.log("login success");
         console.log("token: " + store.token);
+
+        // 更新store
+        updateStore(res.data.data.user);
+
+
         if(res.data.data.user.type == 1){
           //成功登录学员主页面
           router.push('student');
@@ -75,11 +80,11 @@ const toRegister = async () => {
           <div class="list">
 				<div class="list-cell">
 					<el-input class="u-input" type="text" :prefix-icon="UserFilled"
-						v-model="login.login.name" maxlength="32" :placeholder="defaultName" />
+						v-model="login.login.name" maxlength="32" :placeholder="login.defaultName" />
 				</div>
 				<div class="list-cell">
 					<el-input class="u-input" type="password" :prefix-icon="Lock"
-						v-model="login.login.password" maxlength="32" :placeholder="defaultPassword" />
+						v-model="login.login.password" maxlength="32" :placeholder="login.defaultPassword" />
 				</div>
 			</div>
 
@@ -89,7 +94,7 @@ const toRegister = async () => {
 
 
       <button class="u-btn" @click="toLogin">登录</button>
-	  <button class="m-btn" @click="toRegister">注册</button>
+	    <button class="m-btn" @click="toRegister">注册</button>
 
   </div>
 </template>

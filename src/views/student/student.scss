@@ -1,0 +1,49 @@
+
+.search-input {
+	width: 500px;
+    display: flex;
+    margin: auto;
+    font-size: 30px;
+}
+.width-zhanwei{
+	width: 50px;
+}
+.height-zhanwei{
+	height: 50px;
+}
+.top-center {
+	display: flex;
+	flex-direction: column;
+    margin-right: 2%;
+    margin-left: 2%;
+	}
+.center {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+.inline {
+    display: inline-block;
+    margin: 5px;
+}
+.leftMove {
+	margin-right: 5%;
+}
+.rightMove {
+	margin-left: 5%;
+}
+.left {
+    float: left;
+    margin-left: 5%;
+}
+.right {
+    float: right;
+    margin-right: 0%;
+}
+.top-btn {
+    width: 5%;
+    height: 40px;
+    margin: 10px auto;
+    background-color: #ffd04b;
+}
