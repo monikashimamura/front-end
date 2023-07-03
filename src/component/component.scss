@@ -1,0 +1,29 @@
+.width-zhanwei{
+	width: 50px;
+}
+.height-zhanwei{
+	height: 50px;
+}
+.top-center {
+	display: flex;
+	flex-direction: column;
+    margin-right: 2%;
+    margin-left: 2%;
+	}
+.center {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+.imagePreview {
+    height: 240px;
+    width: 425px;
+}
+.imageAd{
+    height: 180px;
+    width: 638px;
+}
+.inline {
+    display: inline-block;
+}

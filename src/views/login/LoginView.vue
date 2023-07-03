@@ -14,7 +14,7 @@ const login = reactive({
   token: store.token,
   defaultName: "请输入用户名",
   defaultPassword: "请输入密码",
-  logoSrc: "src/assets/logo.jpg"
+  logoSrc: "../src/assets/logo.jpg"
 
 });
 
@@ -75,11 +75,11 @@ const toRegister = async () => {
           <div class="list">
 				<div class="list-cell">
 					<el-input class="u-input" type="text" :prefix-icon="UserFilled"
-						v-model="login.login.name" maxlength="32" :placeholder="defaultName" />
+						v-model="login.login.name" maxlength="32" :placeholder="login.defaultName" />
 				</div>
 				<div class="list-cell">
 					<el-input class="u-input" type="password" :prefix-icon="Lock"
-						v-model="login.login.password" maxlength="32" :placeholder="defaultPassword" />
+						v-model="login.login.password" maxlength="32" :placeholder="login.defaultPassword" />
 				</div>
 			</div>
 
@@ -89,7 +89,7 @@ const toRegister = async () => {
 
 
       <button class="u-btn" @click="toLogin">登录</button>
-	  <button class="m-btn" @click="toRegister">注册</button>
+	    <button class="m-btn" @click="toRegister">注册</button>
 
   </div>
 </template>

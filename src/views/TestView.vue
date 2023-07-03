@@ -22,7 +22,7 @@ const test = async () => {
     },
     params: {
       id: 114514,
-      
+
     }
   }).then(
     res => {
@@ -42,6 +42,3 @@ onMounted(() => test(), setCount());
     <p>{{ state.message }}</p>
   </div>
 </template>
-
-
-
