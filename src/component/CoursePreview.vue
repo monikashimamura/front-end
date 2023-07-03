@@ -11,8 +11,8 @@ export default {
     lookCourse(cid) {
       store.cid = cid;
       //router.push("./course");
-    }
-  }
+    },
+  },
 };
 </script>
 
