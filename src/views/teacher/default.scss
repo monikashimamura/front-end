@@ -1,0 +1,41 @@
+* { /* 把默认值设置为0 */
+    margin: 0; /*外边距为0*/
+    padding: 0; /*内边距为0*/
+    /*  border-width :0; 边框宽度为0 */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* 设置超链接的默认值 */
+a:link,a:visited{
+    /* 鼠标没有移上去的超链接样式  ， 超链接访问后的样式 */
+    color:#000;
+    text-decoration:none;   /*没有下划线*/
+}
+
+a:hover{
+    /* 鼠标移到超链接上的样式*/
+    color:#00f;
+    text-decoration:underline;  /* 有下划线 */
+}
+
+#top, #search, #main, #footer {     /* 公共样式 */
+    margin: 10px auto 10px auto; /* 模块间边距为10  /auto 10px auto/具中效果 */
+}
+
+#top { /* 高度和宽度设置 */
+    height: 120px; /* 高度设置*/
+    width:60px;  /* 宽度设置*/
+}
+
+#newscontent a:link,newscontent a:visited {
+    display :block; /* 将行类元素转换成块级元素*/
+    font-size:12px;  /*  字体大小 */
+    text-align:center; /* 具中 */
+    line-height:25px;   /* 垂直具中 */
+    color:#0059B0; /* 字体颜色 */
+}
+
