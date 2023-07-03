@@ -11,7 +11,7 @@ const router = useRouter();
 const information = reactive({
     user: {
         name: store.user.name,
-        uid: store.user.id,
+        uid: store.user.uid,
         age: store.user.age,
         password: store.user.password,
         sex: store.user.sex,
@@ -30,7 +30,7 @@ const onCancel = () => {
     if (confirmMsg == true) {
         router.push('infomation')
     }
-    
+
 }
 
 const onSave = () => {
@@ -147,4 +147,3 @@ const uploadImg = (res, file) => {
     text-align: center;
 }
 </style>
-  

@@ -10,14 +10,14 @@ const router = useRouter();
 
 const infomation = reactive({
     name: store.user.name,
-    id: store.user.id,
+    id: store.user.uid,
     age: store.user.age,
     password: store.user.password,
     sex: store.user.sex,
     type: store.user.type,
     introduction: store.user.introduction,
     phoneNumber: store.user.phoneNumber,
-    img: store.user.img, 
+    img: store.user.img,
 })
 
 const fit = reactive("cover")
@@ -73,7 +73,7 @@ const onSubmit = () => {
                 </el-form-item>
             </el-col>
 
-                
+
         </el-form>
 
         <el-button type="primary" size="large" @click="onSubmit">修改</el-button>
@@ -98,4 +98,3 @@ const onSubmit = () => {
     text-align: center;
 }
 </style>
-  
