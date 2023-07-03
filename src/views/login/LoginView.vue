@@ -18,9 +18,9 @@ const login = reactive({
 
 });
 
-// const app = reactive({
-
-// })
+const updateStore = (user) => {
+  store.user = user;
+}
 
 const toLogin = async() => {
   console.log("login try");
@@ -34,6 +34,11 @@ const toLogin = async() => {
         store.token = res.data.data.token;
         console.log("login success");
         console.log("token: " + store.token);
+
+        // 更新store
+        updateStore(res.data.data.user);
+
+
         if(res.data.data.user.type == 1){
           //成功登录学员主页面
           router.push('student');

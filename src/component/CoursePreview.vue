@@ -18,7 +18,7 @@ export default {
 
 <template>
   <router-link to="/student/course">
-    <el-image class="imagePreview" :src="course.image" @click="lookCourse(course.cid)"></el-image>
+    <el-image class="imagePreview" :src="course.course.image" @click="lookCourse(course.course.cid)"></el-image>
   </router-link>
   <div class="inline">
     <el-text size="large" type="info"
@@ -29,7 +29,7 @@ export default {
     >
   </div>
   <div>
-      <el-text size="small" type="info">{{ course.description }}</el-text>
+      <el-text size="small" type="info">{{ course.course.description }}</el-text>
   </div>
 </template>
 

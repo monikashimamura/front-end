@@ -11,55 +11,70 @@ const router = useRouter();
 const stuHome = reactive({
   stu: {
     name: store.user.name,
-    id: store.user.id,
+    uid: store.user.uid,
     age: store.user.age,
     password: store.user.password,
     sex: store.user.sex,
     type: store.user.type,
     introduction: store.user.introduction,
     phoneNumber: store.user.phoneNumber,
-    img: store.user.img,
+    image: store.user.image,
   },
   coursePre: [
     {
-      image: "../src/assets/jingjixue.jpg",
-      description: "快速掌握计量经济学概念，解决现实经济管理问题！",
-      teacher: "范国斌",
-      cid: 1,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
     {
-      image: "../src/assets/jinyong.jpg",
-      description: "金庸的武侠小说，你真的读懂了吗？",
-      teacher: "刘斌",
-      cid: 2,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
     {
-      image: "../src/assets/english.jpg",
-      description: "如何区分英音和美音？中国英语和中式英语有什么差别？",
-      teacher: "张妍岩",
-      cid: 3,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
     {
-      image: "../src/assets/python.jpg",
-      description: "零基础轻松入门，掌握方法，“爬虫”真的很简单~",
-      teacher: "嵩天",
-      cid: 4,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
     {
-      image: "../src/assets/dianshang.jpg",
-      description: "助你在创业路上不走弯路！",
-      teacher: "胡剑锋",
-      cid: 5,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
     {
-      image: "../src/assets/jiaotong.jpg",
-      description: "应用系统工程理论，综合解决交通难题~",
-      teacher: "王元庆",
-      cid: 6,
+      teacher: "孙笑川",
+      course: {
+        image: "../src/assets/jingjixue.jpg",
+        description: "快速掌握计量经济学概念，解决现实经济管理问题！",
+        teacher: 1,
+        cid: 1,
+      },
     },
-    {
-
-    }
   ],
   ad: [
     {
@@ -94,8 +109,28 @@ const init = () => {
 
   // 是否有课
   stuHome.ifHaveCourse = false;
+
+  // 推荐课程
+  axios(store.url + "/course/getCourseRand", {
+    headers: {
+      Authorization: store.token,
+    },
+    params: {
+      num: 6,
+    },
+  }).then((res) => {
+    if (res.data.code == 200) {
+      console.log(res.data);
+      stuHome.coursePre = res.data.data;
+      console.log(stuHome.coursePre[5].image);
+    } else {
+      console.log("请求课程推荐信息错误");
+      console.log(res.data);
+    }
+  });
 };
 onMounted(init);
+
 const toCourse = () => {
   if (!stuHome.isLogin) {
     router.push("/login");
@@ -170,7 +205,7 @@ const search = () => {
       </div>
       <div class="width-zhanwei"></div>
       <el-image
-        :src="stuHome.stu.img"
+        :src="stuHome.stu.image"
         style="height: 60px; width: 60px"
         v-if="stuHome.stu.name"
       >
@@ -224,16 +259,13 @@ const search = () => {
       <course-Preview :course="stuHome.coursePre[4]"></course-Preview>
       <course-Preview :course="stuHome.coursePre[5]"></course-Preview>
     </div>
-
   </div>
   <div v-else class="center">
     <el-text type="primary" size="large">还未选择课程哦</el-text>
   </div>
 
-
   <div class="height-zhanwei"></div>
   <div class="height-zhanwei"></div>
-
 </template>
 
 <style>
