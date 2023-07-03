@@ -11,19 +11,20 @@ import { useRouter } from 'vue-router';
 </script>
 
 <template>
-    <div>
-        <template>
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-                <el-breadcrumb-item><a href="/">promotion management</a></el-breadcrumb-item>
-                <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-                <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-            </el-breadcrumb>
-        </template>
+    <div class="bread">
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/teacher' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>个人信息</el-breadcrumb-item>
+        </el-breadcrumb>
     </div>
+
+    <el-card class="main-card">
+    <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+  </el-card>
 </template>
 
 <style>
 @import "default.scss";
+@import "template.scss";
 </style>
   
