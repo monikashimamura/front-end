@@ -78,7 +78,7 @@ export default {
   },
   //`http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`
   methods: {
-    /*fetchUsers() {
+    fetchUsers() {
       const url = `http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`;
       axios.get(url)
         .then(response => {
@@ -89,28 +89,28 @@ export default {
         .catch(error => {
           console.error('Error fetching users:', error);
         });
-    },*/
-
-    fetchCourses() {
-      const url = `http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`;
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data.code === 200) {
-            this.users = data.data;
-            this.totalPages = Math.ceil(data.total / this.pageSize); // 使用总数计算总页数
-          } else {
-            console.error('请求失败:', data.message);
-          }
-        })
-        .catch(error => {
-          console.error('请求失败:', error);
-        });},
-        handleCurrentChange(page) {
-      this.currentPage = page; // 更新当前页码
-      this.fetchCourses(); // 发送请求获取对应页的数据
-      console.log("我被调用了");
     },
+
+    // fetchCourses() {
+    //   const url = `http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`;
+    //   fetch(url)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       if (data.code === 200) {
+    //         this.users = data.data;
+    //         this.totalPages = Math.ceil(data.total / this.pageSize); // 使用总数计算总页数
+    //       } else {
+    //         console.error('请求失败:', data.message);
+    //       }
+    //     })
+    //     .catch(error => {
+    //       console.error('请求失败:', error);
+    //     });},
+    //     handleCurrentChange(page) {
+    //   this.currentPage = page; // 更新当前页码
+    //   this.fetchCourses(); // 发送请求获取对应页的数据
+    //   console.log("我被调用了");
+    // },
     handleCurrentChange(page) {
       this.currentPage = page;
       this.fetchUsers();
