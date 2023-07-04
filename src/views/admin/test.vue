@@ -10,12 +10,12 @@
     <div class="user-list">
       <div class="table-header">
         <div class="table-header-cell" style="flex: 3;">用户ID</div>
-        <div class="table-header-cell" style="flex: 6;">用户名</div>
-        <div class="table-header-cell" style="flex: 2;">性别</div>
+        <div class="table-header-cell" style="flex: 3;">用户名</div>
+        <div class="table-header-cell" style="flex: 4;">性别</div>
         <div class="table-header-cell" style="flex: 3;">年龄</div>
-        <div class="table-header-cell" style="flex: 10;">手机号码</div>
-        <div class="table-header-cell" style="flex: 10;">账号密码</div>
-        <div class="table-header-cell" style="flex: 4;">操作</div>
+        <div class="table-header-cell" style="flex: 3;">手机号码</div>
+        <div class="table-header-cell" style="flex: 5;">账号密码</div>
+        <div class="table-header-cell" style="flex: 1;">操作</div>
       </div>
       <div class="user-item" v-for="(user, index) in paginatedUsers" :key="user.uid" :class="{ 'highlight': hoverRow === index }" @click="showUserDetails(user)">
         <div class="user-info">
@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="page">
-      <el-pagination
+        <el-pagination
         v-model:current-page="currentPage"
         :background="background"
         layout="prev, pager, next, jumper"
@@ -47,6 +47,7 @@
         :pager-count="7"
         @current-change="handleCurrentChange"
       />
+      
     </div>
   </div>
 </template>
@@ -64,6 +65,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       totalPages: 100,
+      background:true
     };
   },
   mounted() {
@@ -76,41 +78,22 @@ export default {
       return this.users.slice(start, end);
     },
   },
-  //`http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`
+  
   methods: {
-    /*fetchUsers() {
+    fetchUsers() {
       const url = `http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`;
       axios.get(url)
         .then(response => {
           console.log('Response:', response);
-          this.users = response.data;
+          this.users = response.data.data;
           this.totalPages = response.data.totalPages;
         })
         .catch(error => {
           console.error('Error fetching users:', error);
         });
-    },*/
-
-    fetchCourses() {
-      const url = `http://localhost:10100/admin/getAllUser?page=${this.currentPage - 1}&size=${this.pageSize}`;
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data.code === 200) {
-            this.users = data.data;
-            this.totalPages = Math.ceil(data.total / this.pageSize); // 使用总数计算总页数
-          } else {
-            console.error('请求失败:', data.message);
-          }
-        })
-        .catch(error => {
-          console.error('请求失败:', error);
-        });},
-        handleCurrentChange(page) {
-      this.currentPage = page; // 更新当前页码
-      this.fetchCourses(); // 发送请求获取对应页的数据
-      console.log("我被调用了");
     },
+
+    
     handleCurrentChange(page) {
       this.currentPage = page;
       this.fetchUsers();
@@ -251,10 +234,10 @@ export default {
 
 .close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
-  color: #999;
+  top: 200px;
+  right: 200px;
+  font-size: 50px;
+  color: #ec0d0d;
   border: none;
   background-color: transparent;
   cursor: pointer;
