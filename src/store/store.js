@@ -11,7 +11,7 @@ export const store = reactive({
     type: 1,
     introduction: "昏睡红茶代言人",
     phoneNumber: "114514",
-    image: "../src/assets/logo.jpg"
+    img: "../src/assets/logo.jpg"
   },
   url: 'http://127.0.0.1:10100',
   token: "notoken",
