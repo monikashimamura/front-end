@@ -27,3 +27,11 @@
 .inline {
     display: inline-block;
 }
+.description {
+    width: 100%; /*一定要设置宽度，或者元素内含的百分比*/
+    overflow: hidden; /*溢出的部分隐藏*/
+    white-space: nowrap; /*文本不换行*/
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

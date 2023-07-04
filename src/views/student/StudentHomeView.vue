@@ -96,8 +96,9 @@ const stuHome = reactive({
   ],
   isLogin: false,
   searchText: "",
-  defaultSearch: "搜索",
+  defaultSearch: "搜索课程",
   ifHaveCourse: false,
+  courseRecommend: false,
 });
 
 const init = () => {
@@ -122,7 +123,7 @@ const init = () => {
     if (res.data.code == 200) {
       console.log(res.data);
       stuHome.coursePre = res.data.data;
-      console.log(stuHome.coursePre[5].image);
+
     } else {
       console.log("请求课程推荐信息错误");
       console.log(res.data);
@@ -136,7 +137,7 @@ const toCourse = () => {
     router.push("/login");
     return;
   }
-  router.push("./course");
+  stuHome.courseRecommend = true;
 };
 
 const toExam = () => {
@@ -144,7 +145,7 @@ const toExam = () => {
     router.push("/login");
     return;
   }
-  router.push("./exam");
+  router.push("/student/exam");
 };
 
 const toGame = () => {
@@ -152,7 +153,7 @@ const toGame = () => {
     router.push("/login");
     return;
   }
-  router.push("./game");
+  router.push("/student/game");
 };
 
 const toLogin = () => {
@@ -160,12 +161,17 @@ const toLogin = () => {
 };
 
 const search = () => {
-  // 搜索功能，先埋个坑
+  // 搜索功能
   if (!stuHome.isLogin) {
     router.push("/login");
     return;
   }
-  console.log(stuHome.searchText);
+  if (stuHome.searchText == ""){
+    alert("请输入搜索内容");
+    return;
+  }
+  store.searchText = stuHome.searchText;
+  router.push("/student/recommend")
 };
 </script>
 
@@ -216,8 +222,8 @@ const search = () => {
     </el-menu>
   </div>
 
-  <h2>课程推荐</h2>
-  <div style="display: flex">
+  <h2 v-if="stuHome.courseRecommend">课程推荐</h2>
+  <div style="display: flex" v-if="stuHome.courseRecommend">
     <div class="inline">
       <course-Preview :course="stuHome.coursePre[0]"></course-Preview>
       <course-Preview :course="stuHome.coursePre[1]"></course-Preview>

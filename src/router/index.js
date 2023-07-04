@@ -40,6 +40,14 @@ const router = createRouter({
         {
           path: 'game',
           component: () => import('../views/student/StudentGameView.vue')
+        },
+        {
+          path: 'study',
+          component: () => import('../views/student/StudentStudyView.vue')
+        },
+        {
+          path: 'recommend',
+          component: () => import('../views/student/StudentRecommendView.vue')
         }
       ]
     },

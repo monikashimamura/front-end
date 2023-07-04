@@ -16,6 +16,7 @@ export const store = reactive({
   url: 'http://127.0.0.1:10100',
   token: "notoken",
   cid: -1,
+  searchText: ""
 
 
 

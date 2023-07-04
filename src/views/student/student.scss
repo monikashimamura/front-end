@@ -16,7 +16,7 @@
 	flex-direction: column;
     margin-right: 2%;
     margin-left: 2%;
-	}
+}
 .center {
     display: flex;
     flex-direction: column;
@@ -27,6 +27,7 @@
     display: inline-block;
     margin: 5px;
 }
+
 .leftMove {
 	margin-right: 5%;
 }
@@ -46,4 +47,27 @@
     height: 40px;
     margin: 10px auto;
     background-color: #ffd04b;
+}
+.study-btn {
+    width: 200px;
+    height: 200px;
+    margin: 60px auto;
+    background-color: #39c5bb;
+}
+.imageCourse {
+    height: 384px;
+    width: 680px;
+}
+.big-text-front {
+    font-size: 45px;
+    font: bold;
+}
+.big-text-behind {
+    font-size: 45px;
+    font: bold;
+    color: rgb(37, 52, 189);
+}
+.info-text {
+    font-size: 20px;
+    color: rgb(49, 44, 44);
 }
