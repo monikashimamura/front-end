@@ -1,130 +1,171 @@
 <template>
-    <div class="container">
-
-      <div class="preview">
-        <div v-if="previewType === 'video'">
-          <video :src="previewUrl" controls></video>
-        </div>
-        <div v-else-if="previewType === 'pdf'">
-          <iframe :src="previewUrl" frameborder="0" allowfullscreen ></iframe>
-        </div>
-        <div v-else>
-          <p>No preview available.</p>
-        </div>
+  <div class="container">
+    <div class="preview">
+      <div>{{ previewType }}</div>
+      <hr />
+      <div>{{ previewUrl }}</div>
+      <hr />
+      <div v-if="previewType === 'video'">
+        <video :src="previewUrl" controls>No preview available.</video>
       </div>
-
-      <div class="sidebar">
-        <div class="section-content" v-if="sections.length === 1" @click="showPreview(sections[0])">
-          {{ sections[0].title }}
-        </div>
-        <el-collapse v-else v-model="chapterActiveNames" accordion class="custom-collapse">
-          <el-collapse-item v-for="chapter in chapters" :key="chapter.id" :title="chapter.title">
-            <el-collapse v-model="sectionActiveNames[chapter.id]" class="nested-collapse">
-                <div v-for="section in chapter.sections" class="section-content" @click="showPreview(section)">
-                  {{ section.title }}
-                </div>
-            </el-collapse>
-          </el-collapse-item>
-        </el-collapse>
+      <div v-else>
+        <iframe :src="previewUrl" frameborder="0" allowfullscreen >No preview available.</iframe>
       </div>
     </div>
-  </template>
 
-  <script>
-  import { ref } from 'vue';
 
-  export default {
-    data() {
-      return {
-        chapterActiveNames: [],
-        sectionActiveNames: {},
-        chapters: [
-          {
-            id: 1,
-            title: 'Chapter 1',
-            sections: [
-              { id: 1, title: 'Section 1.1', type: 'video', fileUrl: 'http://localhost:8080/test.mp4' },
-              { id: 2, title: 'Section 1.2', type: 'pdf', fileUrl: 'http://localhost:8080/doc.pdf' },
-            ],
-          },
-          {
-            id: 2,
-            title: 'Chapter 2',
-            sections: [
-              { id: 3, title: 'Section 2.1', type: 'video', fileUrl: 'http://localhost:8080/video.mp4' },
-              { id: 4, title: 'Section 2.2', type: 'pdf', fileUrl: 'http://localhost:8080/doc.pdf' },
-            ],
-          },
-        ],
-        previewType: null,
-        previewUrl: null,
-      };
-    },
-    computed: {
-      sections() {
-        return this.chapters.flatMap((chapter) => chapter.sections);
+    <div class="sidebar">
+      <div class="section-content" v-if="sections.length === 1" @click="showPreview(sections[0])">
+        {{ sections[0].title }}
+      </div>
+      <el-collapse v-else v-model="chapterActiveNames" accordion class="custom-collapse">
+        <el-collapse-item v-for="chapter in chapters" :key="chapter.id" :title="'Chapter ' + chapter.id">
+          <el-collapse v-model="sectionActiveNames[chapter.id]" class="nested-collapse">
+              <div v-for="section in chapter.sections" class="section-content" @click="showPreview(section)">
+                {{ section.name }}
+              </div>
+          </el-collapse>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { onMounted, reactive, ref } from 'vue';
+import axios from 'axios';
+import store from "@/store/store.js";
+
+  let    chapterActiveNames = reactive([]);
+  let    sectionActiveNames = reactive({});
+  let    chapters = reactive([
+  {
+    "id": 1,
+    "sections": [
+      {
+        "lid": 5,
+        "cid": 2,
+        "orde": 1,
+        "url": "http://localhost:10100/uploads/2/赛道友你.pdf",
+        "name": "2",
+        "description": "description",
+        "type": "application/pdf"
       },
+      {
+          "lid": 6,
+          "cid": 2,
+          "orde": 1,
+          "url": "http://localhost:10100/uploads/2/100个gdb小技巧（v1.0）.pdf",
+          "name": "z z",
+          "description": "笑死",
+          "type": "application/pdf"
+        }
+    ]
+  },
+  {
+      "id": 2,
+      "sections": [
+        {
+          "lid": 4,
+          "cid": 2,
+          "orde": 2,
+          "url": "http://localhost:10100/uploads/2/install.exe",
+          "name": "3",
+          "description": "4",
+          "type": "application/x-ms-dos-executable"
+        }
+      ]
     },
-    methods: {
-      showPreview(section) {
-        this.previewType = section.type;
-        this.previewUrl = section.fileUrl;
-      },
+]);
+const previewType = ref('');
+const previewUrl = ref('');
 
-      getLecture() {
-        this.chapters
-      }
+
+const sections = () => {
+      return this.chapters.flatMap((chapter) => chapter.sections);
+    };
+  const  methods = {
+
+
+    getChapters: async function() {
+    await axios({
+        method: 'get',
+        url: store.url + '/getChapter?cid=' + store.cid ,
+    }).then(
+        res => {
+          console.log("拿到数据");
+            if(res.data.code == 200) {
+                chapters.splice(0, chapters.length, ...res.data.data);
+            } else {
+                alert(res.data.message)
+            }
+        }
+    )
     },
   };
-  </script>
 
-  <style scoped>
-  iframe {
-      display: block;
-      border: none;
-      height: 90vh;
-      width: 100%;
-  }
+const showPreview = (section) => {
+      console.log("show preview 被调用了")
+      previewType.value = section.type;
+      let arr = section.url.split('/');
+      previewUrl.value = "http://localhost:10100/uploads"
+                        + "?courseId=" + arr[arr.length-2]
+                        + "&fileName=" + arr[arr.length-1]
+                        + "&filetype=" + section.type.replaceAll('/', '%2F');
+    };
 
-  video {
-      display: block;
-      border: none;
-      height: 90vh;
-      width: 100%;
-  }
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-  }
+  onMounted(methods.getChapters);
 
-  .sidebar {
-    width: 300px;
-  }
+</script>
 
-  .preview {
-    flex-grow: 1;
-    margin-right: 20px;
-    max-width: calc(100vw - 340px);
-    height: calc(300vw * 9 / 16);
-  }
-
-  .custom-collapse {
+<style scoped>
+iframe {
+    display: block;
+    border: none;
+    height: 90vh;
     width: 100%;
-  }
+}
 
-  .nested-collapse {
-    margin-top: 10px;
-  }
+video {
+    display: block;
+    border: none;
+    height: 90vh;
+    width: 100%;
+}
 
-  .section-content {
-    padding: 8px;
-    margin-bottom: 5px;
-    background-color: #f7f9fc;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
 
-  </style>
+.sidebar {
+  width: 300px;
+}
+
+.preview {
+  flex-grow: 1;
+  margin-right: 20px;
+  max-width: calc(100vw - 340px);
+  height: calc(300vw * 9 / 16);
+}
+
+.custom-collapse {
+  width: 100%;
+}
+
+.nested-collapse {
+  margin-top: 10px;
+}
+
+.section-content {
+  padding: 8px;
+  margin-bottom: 5px;
+  background-color: #f7f9fc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+</style>
