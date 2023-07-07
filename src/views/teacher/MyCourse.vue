@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <script setup>
 
 import { reactive, onMounted, onUpdated } from 'vue';
@@ -93,5 +92,3 @@ onMounted(getAllCourse);
   padding: 10px 10px;
 }
 </style>
-=======
->>>>>>> origin/master

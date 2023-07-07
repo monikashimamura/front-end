@@ -4,7 +4,7 @@ export const store = reactive({
   //data
   user: {
     name: "李田所",
-    uid: "114514",
+    uid: 2,
     age: 24,
     password: "1919810",
     sex: 1,
@@ -15,7 +15,7 @@ export const store = reactive({
   },
   url: 'http://127.0.0.1:10100',
   token: "notoken",
-  cid: -1,
+  cid: 2,
   searchText: ""
 
 
