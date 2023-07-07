@@ -40,11 +40,12 @@
         <Tab_2></Tab_2>
         </div>
       <div v-if="activeTab === 'tab3'">
-        <h2>用户管理</h2>
-        <Test></Test>
+        <!-- <h2>用户管理</h2> -->
+        <Tab_3></Tab_3>
       </div>
       <div v-if="activeTab === 'tab4'">
         <h2>开课申请</h2>
+        <Tab_4></Tab_4>
       </div>
       </div>
     </div>
@@ -55,11 +56,15 @@
 import Tab_1 from './tab_1.vue';
 import Tab_2 from './tab_2.vue';
 import Test from './test.vue';
+import Tab_3 from './tab_3.vue';
+import Tab_4 from './tab_4.vue'
 export default {
  components:{
   Tab_1,
   Tab_2,
-  Test
+  Test,
+  Tab_3,
+  Tab_4
 },
 
   data() {
