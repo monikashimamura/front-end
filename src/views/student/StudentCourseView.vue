@@ -77,8 +77,8 @@ const startStudy = (cid) => {
     </div>
 
     <div>
-      <el-button class="study-btn" round>
-        <text class="big-text-front" @click="startStudy(course.course.cid)">开始学习</text>
+      <el-button class="study-btn"  @click="startStudy(course.course.cid)" round>
+        <text class="big-text-front">开始学习</text>
       </el-button>
     </div>
   </div>

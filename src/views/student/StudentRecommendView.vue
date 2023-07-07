@@ -7,9 +7,12 @@ import coursePreview from "@/component/CoursePreview.vue";
 const router = useRouter();
 
 const rec = reactive({
+  key: store.searchText,
   coursePre: [
 
+
   ],
+  temp: 0
 
 
 });
@@ -17,13 +20,12 @@ const rec = reactive({
 const init = () => {
 
 
-  // 推荐课程
-  axios(store.url + "/course/getCourseRand", {
+  axios(store.url + "/course/getCourseRecommend", {
     headers: {
       Authorization: store.token,
     },
     params: {
-      num: 6,
+      key: rec.key
     },
   }).then((res) => {
     if (res.data.code == 200) {
@@ -48,7 +50,7 @@ onMounted(init);
 
   <h2>课程推荐</h2>
   <div style="display: flex" v-for="course in rec.coursePre" :key="course.cid">
-      <course-Preview :course="course"></course-Preview>
+      <course-Preview :course="course" style="flex: {{ (rec.temp++)%3 + 1 }}"></course-Preview>
   </div>
 
 
