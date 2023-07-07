@@ -21,6 +21,7 @@ const login = reactive({
 
 const updateStore = (user) => {
   store.user = user;
+  store.user.image = user.img;
 };
 
 
