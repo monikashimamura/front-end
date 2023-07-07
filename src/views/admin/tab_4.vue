@@ -1,16 +1,9 @@
 <template>
   <div>
-   <!--  <div class="search-bar">
-      <input type="text" v-model="searchText" placeholder="请输入关键词">
-      <button @click="search">搜索</button>
-      <button @click="reset">重置</button>
-      <button @click="sortByStartTimeT">时间正序</button>
-      <button @click="sortByStartTimeF">时间倒序</button>
-    </div> -->
     <div class="course-list">
       <div class="table-header">
         <div class="table-header-cell" style="flex: 6;">课程名称</div>
-        <div class="table-header-cell" style="flex: 6;">授课老师</div>
+        <div class="table-header-cell" style="flex: 6;">教师id</div>
         <div class="table-header-cell" style="flex: 3;">申请时间</div>
         <div class="table-header-cell" style="flex: 1;">操作</div>
       </div>
@@ -28,7 +21,7 @@
     </div>
   <div class="modal" v-if="refuse">
     <div class="modal-content">
-      <p>你确定拒绝 {{ myCourse ? myCourse.name : '' }} 吗？</p>
+      <p class="pla">你确定拒绝 {{ myCourse ? myCourse.name : '' }} 吗？</p>
       <div>
         <button class="cancel-btn" @click="cancelRefuse">取消</button>
         <button class="confirm-btn" @click="confirmRefuse(myCourse.cid)">确定</button>
@@ -47,8 +40,9 @@
   </div>
     <div class="modal" v-if="selectedCourse">
       <div class="modal-content">
-        <button class="close" @click="closeModal">&times;</button>
+       
         <p>课程详情：{{ selectedCourse.description }}</p>
+        <button class="close" @click="closeModal">确定</button>
       </div>
     </div>
     <!-- 分页组件 -->
@@ -116,7 +110,7 @@ export default {
         });
     },
     confirmRefuse(cid) {
-      const url = `http://localhost:10100/admin/refuseCourse/${cid}`;
+      const url = `http://localhost:10100/admin/refuseCourse?id=${cid}`;
       fetch(url, {
         method: 'PUT',
       })
@@ -135,7 +129,7 @@ export default {
         });
     },
     confirmAgree(cid) {
-      const url = `http://localhost:10100/admin/agreeCourse/${cid}`;
+      const url = `http://localhost:10100/admin/agreeCourse?id=${cid}`;
       fetch(url, {
         method: 'PUT',
       })
@@ -312,12 +306,17 @@ export default {
 
 
 .close {
-position: absolute;
-top: 200px;
-right: 300px;
-font-size: 50px;
-font-weight: bold;
-cursor: pointer;
+position: relative;
+/* top: 200px;
+right: 300px; */
+margin-left: 50%;
+font-size: 20px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+
 }
 
 .page{
@@ -325,4 +324,24 @@ position:relative;
 margin-top: 20px;
 margin-left: 25%;
 }
+
+
+.cancel-btn{
+  position: relative;
+  font-size:15px;
+  background-color: #007bff;
+  color: #fff;
+  margin-right: 30%;
+}
+
+.confirm-btn{
+  position: relative;
+  font-size:15px;
+  background-color: #ff0000;
+  color: #fff;
+  
+
+}
+
 </style>
+
