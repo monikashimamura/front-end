@@ -72,7 +72,12 @@ const router = createRouter({
         {
           path: '/teacher/itembank',
           name: 'itembank',
-          component: () => import('../views/teacher/Itembank.vue')
+          component: () => import('../views/teacher/ItemBank.vue')
+        },
+        {
+          path: '/teacher/addItem',
+          name: 'addItem',
+          component: () => import('../views/teacher/AddItem.vue')
         }
       ]
     },
