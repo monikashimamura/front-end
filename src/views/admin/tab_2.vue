@@ -254,7 +254,7 @@ export default {
 
 .page{
   position:relative;
-  margin-top: 20px;
+  margin-top: 150px;
   margin-left: 25%;
 }
   </style>
