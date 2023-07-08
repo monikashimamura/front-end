@@ -27,8 +27,11 @@
           <div class="user-gender">{{ user.sex === 0 ? '女' : '男' }}</div>
           <div class="user-age">{{ user.age }}</div>
           <div class="user-phone">{{ user.phoneNumber }}</div>
-          <div class="user-password">{{ user.password }}</div>
+          <!-- <div class="user-password">{{ user.password }}</div> -->
+          <div class="user-password"> ****** </div>
+
           <div class="user-actions">
+            <button class="update-btn" @click.stop="confirmUpdate(user)">修改密码</button>
             <button class="delete-btn" @click.stop="confirmDeleteUser(user)">删除</button>
           </div>
         </div>
@@ -312,6 +315,15 @@ export default {
 .delete-btn {
   padding: 5px 10px;
   background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.update-btn {
+  padding: 5px 10px;
+  background-color: #0091ff;
   color: #fff;
   border: none;
   border-radius: 3px;

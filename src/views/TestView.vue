@@ -1,93 +1,177 @@
-<!-- <template>
-  <div>
-    <h1>视频上传</h1>
-    <input type="file" ref="fileInput" @change="onFileChange">
-    <br>
-    <label for="courseId">课程ID:</label>
-    <input type="text" id="courseId" v-model="courseId">
-    <br>
-    <label for="chapterId">章节ID:</label>
-    <input type="text" id="chapterId" v-model="chapterId">
-    <br>
-    <label for="name">名称:</label>
-    <input type="text" id="name" v-model="name">
-    <br>
-    <label for="description">描述:</label>
-    <textarea id="description" v-model="description"></textarea>
-    <br>
-    <button @click="uploadVideo">上传视频</button>
+<template>
+  <!--顶端-->
+  <div class="All">
+  <div id="Top">
+    <img id="logo" src="src\assets\xuelebao.png" alt="">
+    <p>授课老师</p>
   </div>
+  <!--选项卡-->
+  <div class="admin-wrapper">
+    <div class="sidebar">
+      <ul class="tab-list">
+        <li :class="{ active: activeTab === 'tab1' }" @click="changeTab('tab1')">
+          <i class="icon fas fa-home"></i>
+          <span>课程介绍</span>
+        </li>
+        <li :class="{ active: activeTab === 'tab2' }" @click="changeTab('tab2')">
+          <i class="icon fas fa-home"></i>
+          <span>评分标准</span>
+        </li>
+        <li :class="{ active: activeTab === 'tab3' }" @click="changeTab('tab3')">
+          <i class="icon fas fa-home"></i>
+          <span>课件</span>
+        </li>
+        <li :class="{ active: activeTab === 'tab4' }" @click="changeTab('tab4')">
+          <i class="icon fas fa-home"></i>
+          <span>测验与作业</span>
+        </li>
+        <li :class="{ active: activeTab === 'tab5' }" @click="changeTab('tab5')">
+          <i class="icon fas fa-home"></i>
+          <span>考试</span>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="scrollable-content">
+        <div v-if="activeTab === 'tab1'">
+          <h2>课程介绍</h2>
+        </div>
+        <div v-if="activeTab === 'tab2'">
+          <h2>评分标准</h2>
+        </div>
+        <div v-if="activeTab === 'tab3'">
+          <h2>课件</h2>
+        </div>
+        <div v-if="activeTab === 'tab4'">
+          <h2>测验与作业</h2>
+        </div>
+        <div v-if="activeTab === 'tab5'">
+          <h2>考试</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </template>
 
 <script>
-import axios from 'axios';
+import { reactive, onMounted } from "vue";
+import axios from "axios";
+import store from "@/store/store.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const course = reactive({
+  course: {
+    cid: store.cid,
+  },
+});
 
 export default {
   data() {
     return {
-      file: null,
-      courseId: '',
-      chapterId: '',
-      name: '',
-      description: ''
+      activeTab: 'tab1' // 默认选中的选项卡
     };
   },
   methods: {
-    onFileChange(event) {
-      this.file = event.target.files[0];
-    },
-    uploadVideo() {
-      // 创建一个 FormData 对象
-      var formData = new FormData();
-
-      // 添加参数到 FormData 对象
-      formData.append('file', this.file);
-      formData.append('courseId', this.courseId);
-      formData.append('chapterId', this.chapterId);
-      formData.append('name', this.name);
-      formData.append('description', this.description);
-
-      // 使用axios或其他HTTP库发送请求
-      axios.post('http://localhost:10100/video/upload', formData)
-        .then(response => {
-          // 处理响应数据
-          console.log(response.data);
-        })
-        .catch(error => {
-          // 处理错误
-          console.error(error);
-        });
+    changeTab(tab) {
+      this.activeTab = tab;
     }
+  },
+  mounted() {
+  
   }
 };
 </script>
- -->
 
- <template>
-  <div>
-    <video ref="videoPlayer" :src="videoUrl" controls></video>
-  </div>
-</template>
+<style>
+#Top {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(0, 190, 251);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px; /* 添加顶部和选项卡之间的间隔 */
+}
 
-<script>
-export default {
-  data() {
-    return {
-      videoUrl: "http://localhost:10100/uploads/1/video.mp4", // 视频的 URL
-    };
-  },
-  mounted() {
-    this.playVideo();
-  },
-  methods: {
-    playVideo() {
-      const videoPlayer = this.$refs.videoPlayer;
-      videoPlayer.play();
-    },
-  },
-};
-</script>
+#logo {
+  margin-left: 20px;
+  width: auto;
+  height: 100%;
+}
 
-<style scoped>
-/* 样式可以根据需要自行添加 */
+.All{
+  background-color: #f5f5f5;
+}
+
+.admin-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  padding: 20px;
+  overflow: hidden; /* 添加 overflow 属性 */
+}
+
+.tab-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto; /* 添加 overflow-y 属性 */
+  max-height: calc(100vh - 70px); /* 设置最大高度，减去顶部和底部的高度 */
+}
+
+.tab-list li {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background-color: #fff; /* 设置选项卡的背景色为白色 */
+}
+
+.tab-list li:hover {
+  /* background-color: rgb(233, 251, 245); */
+  color: rgb(125, 202, 63); /* 鼠标悬停时设置字体颜色为 rgb(233, 251, 245) */
+  font-weight: bold;
+}
+
+.tab-list li.active {
+  background-color: rgb(233, 251, 245); /* 设置选中的选项卡背景色为 rgb(233, 251, 245) */
+  color: #000; /* 设置选中的选项卡字体颜色为黑色 */
+  font-weight: bold;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  background-color: #6e8193;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  overflow: auto;
+  background-color: #ffffff; /* 修改内容区域的背景色为淡灰色 */
+  margin-left: 20px; /* 添加内容左侧的间隔 */
+  margin-bottom: 20px; /* 添加内容底部的间隔 */
+  border-radius: 8px; /* 添加内容区域的圆角 */
+  padding: 10px; /* 添加内边距 */
+}
+
+.scrollable-content {
+  padding: 20px;
+}
 </style>
