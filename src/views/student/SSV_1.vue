@@ -1,10 +1,6 @@
 <template>
     <div class="container">
       <div class="preview">
-        <div>{{ previewType }}</div>
-        <hr />
-        <div>{{ previewUrl }}</div>
-        <hr />
         <div v-if="previewType === 'video'">
           <video :src="previewUrl" controls>No preview available.</video>
         </div>
@@ -12,15 +8,15 @@
           <iframe :src="previewUrl" frameborder="0" allowfullscreen >No preview available.</iframe>
         </div>
       </div>
-  
-  
+
+
       <div class="sidebar">
         <div class="section-content" v-if="sections.length === 1" @click="showPreview(sections[0])">
           {{ sections[0].title }}
         </div>
         <el-collapse v-else v-model="chapterActiveNames" accordion class="custom-collapse">
-          <el-collapse-item v-for="chapter in chapters" :key="chapter.id" :title="'Chapter ' + chapter.id">
-            <el-collapse v-model="sectionActiveNames[chapter.id]" class="nested-collapse">
+          <el-collapse-item v-for="chapter in chapters" :key="chapter.no" :title="'Chapter ' + chapter.no + '   ' + chapter.name">
+            <el-collapse v-model="sectionActiveNames[chapter.no]" class="nested-collapse">
                 <div v-for="section in chapter.sections" class="section-content" @click="showPreview(section)">
                   {{ section.name }}
                 </div>
@@ -30,17 +26,17 @@
       </div>
     </div>
   </template>
-  
+
   <script setup>
   import { onMounted, reactive, ref } from 'vue';
   import axios from 'axios';
   import store from "@/store/store.js";
-  
+
     let    chapterActiveNames = reactive([]);
     let    sectionActiveNames = reactive({});
     let    chapters = reactive([
     {
-      "id": 1,
+      "no": 1,
       "sections": [
         {
           "lid": 5,
@@ -63,7 +59,7 @@
       ]
     },
     {
-        "id": 2,
+        "no": 2,
         "sections": [
           {
             "lid": 4,
@@ -79,14 +75,14 @@
   ]);
   const previewType = ref('');
   const previewUrl = ref('');
-  
-  
+
+
   const sections = () => {
         return this.chapters.flatMap((chapter) => chapter.sections);
       };
     const  methods = {
-  
-  
+
+
       getChapters: async function() {
       await axios({
           method: 'get',
@@ -103,7 +99,7 @@
       )
       },
     };
-  
+
   const showPreview = (section) => {
         console.log("show preview 被调用了")
         previewType.value = section.type;
@@ -113,53 +109,54 @@
                           + "&fileName=" + encodeURIComponent(arr[arr.length-1])
                           + "&filetype=" + section.type.replaceAll('/', '%2F');
       };
-  
-  
+
+
     onMounted(methods.getChapters);
-  
+
   </script>
-  
+
   <style scoped>
   iframe {
       display: block;
       border: none;
-      height: 90vh;
+      height: 70vh;
       width: 100%;
   }
-  
+
   video {
       display: block;
       border: none;
-      height: 90vh;
+      height: 70vh;
       width: 100%;
   }
-  
+
   .container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
+    height: 100%;
   }
-  
+
   .sidebar {
     width: 300px;
   }
-  
+
   .preview {
     flex-grow: 1;
     margin-right: 20px;
-    max-width: calc(100vw - 340px);
-    height: calc(300vw * 9 / 16);
+    max-width: calc(80vw - 340px);
+    height: calc(80vh);
   }
-  
+
   .custom-collapse {
     width: 100%;
   }
-  
+
   .nested-collapse {
     margin-top: 10px;
   }
-  
+
   .section-content {
     padding: 8px;
     margin-bottom: 5px;
@@ -167,5 +164,5 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
+
   </style>
