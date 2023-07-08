@@ -68,6 +68,42 @@ const course = reactive({
   },
 });
 
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
+import store from '@/store/store.js';
+import { UserFilled, Lock } from '@element-plus/icons-vue';
+import { useRouter } from 'vue-router';
+
+const bindData = reactive({
+	// 查询条件
+	myCourse: [],
+    totalNum: 0,
+    pageNum: 0,
+    pageSize: 3
+})
+
+onMounted(() => {
+	getMyCourse();
+});
+
+const getMyCourse = async () => {
+
+    await axios(store.url + '/course/getByTidPage', {
+		headers: {
+			Authorization: store.token
+		},
+        params: {
+            tid: store.user.uid,
+            page: bindData.pageNum,
+            size: bindData.pageSize
+        }
+	}).then(
+		res => {
+			if (res.data.code == 200) {
+				console.log(res.data);
+				bindData.myCourse = res.data.data.records
+				bindData.totalNum = res.data.data.total
+				cons
 export default {
   data() {
     return {
@@ -80,7 +116,7 @@ export default {
     }
   },
   mounted() {
-  
+
   }
 };
 </script>
