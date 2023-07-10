@@ -154,11 +154,11 @@ const onNewExam = () => {
                         </el-form-item>
                         <el-form-item label="开始时间">
                             <el-date-picker v-model="bindData.exam.startTime" type="datetime" placeholder="Pick a Date"
-                                format="YYYY/MM/DD HH:mm:ss" value-format="YYYY/MM/DD HH:mm:ss"/>
+                                format="YYYY-MM-DD HH:mm:ss" value-format="YYYY-MM-DD HH:mm:ss"/>
                         </el-form-item>
                         <el-form-item label="结束时间">
                             <el-date-picker v-model="bindData.exam.endTime" type="datetime" placeholder="Pick a Date"
-                                format="YYYY/MM/DD HH:mm:ss" value-format="YYYY/MM/DD HH:mm:ss"/>
+                                format="YYYY-MM-DD HH:mm:ss" value-format="YYYY-MM-DD HH:mm:ss"/>
                         </el-form-item>
                         <el-form-item label="考试描述">
                             <el-input v-model="bindData.exam.description" type="textarea" rows="3"></el-input>
