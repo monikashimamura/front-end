@@ -70,12 +70,32 @@ const router = createRouter({
         {
           path: '/teacher/mycourse',
           name: 'mycourse',
-          component: () => import('../views/teacher/MyCourse.vue')
+          component: () => import('../views/teacher/MyCourseL.vue')
         },
         {
           path: '/teacher/addcourse',
           name: 'addcourse',
           component: () => import('../views/teacher/AddCourse.vue')
+        },
+        {
+          path: '/teacher/coursedetail',
+          name: 'coursedetail',
+          component: () => import('../views/teacher/CourseDetail.vue')
+        },
+        {
+          path: '/teacher/examdetail',
+          name: 'examdetail',
+          component: () => import('../views/teacher/ExamDetail.vue')
+        },
+        {
+          path: '/teacher/addexam',
+          name: 'addexam',
+          component: () => import('../views/teacher/AddExam.vue')
+        },
+        {
+          path: '/teacher/lecturedetail',
+          name: 'lecturedetail',
+          component: () => import('../views/teacher/LectureDetail.vue')
         },
         {
           path: '/teacher/itembank',

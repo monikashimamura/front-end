@@ -27,8 +27,11 @@
           <div class="user-gender">{{ user.sex === 0 ? '女' : '男' }}</div>
           <div class="user-age">{{ user.age }}</div>
           <div class="user-phone">{{ user.phoneNumber }}</div>
-          <div class="user-password">{{ user.password }}</div>
+          <!-- <div class="user-password">{{ user.password }}</div> -->
+          <div class="user-password"> ****** </div>
+
           <div class="user-actions">
+            <button class="update-btn" @click.stop="showPopup(user)">修改密码</button>
             <button class="delete-btn" @click.stop="confirmDeleteUser(user)">删除</button>
           </div>
         </div>
@@ -51,7 +54,7 @@
         <p>性别: {{ selectedUser.sex === 0 ? '女' : '男' }}</p>
         <p>年龄: {{ selectedUser.age }}</p>
         <p>手机号码: {{ selectedUser.phoneNumber }}</p>
-        <p>账号密码: {{ selectedUser.password }}</p>
+        <!-- <p>账号密码: {{ selectedUser.password }}</p> -->
         <button class="close" @click="closeUserModal">关闭</button>
       </div>
     </div>
@@ -67,12 +70,28 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    
+        <!-- 修改密码容器 -->
+        <div v-if="isPopupVisible" class="up">
+      <!-- 弹窗内容 -->
+      <div class="up-content">
+        <label for="passwordInput">请输入密码:</label>
+        <input type="password" id="passwordInput" v-model="password">
+        <br>
+        <label for="confirmPasswordInput">请再次输入密码:</label>
+        <input type="password" id="confirmPasswordInput" v-model="confirmPassword">
+        <br>
+        <button class="cancel-btn" @click="cancel">取消</button>
+        <button class="confirm-btn" @click="confirm(updateUser)">确定</button>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
+import { computeHash } from "./mysha256";
 export default {
   data() {
     return {
@@ -86,6 +105,9 @@ export default {
       background: true,
       showConfirmation: false,
       showUserModal: false,
+      isPopupVisible: false,
+      password: '',
+      confirmPassword: '',
     };
   },
   mounted() {
@@ -222,7 +244,42 @@ export default {
     closeUserModal() {
       this.showUserModal = false;
     },
-    // 其他方法省略
+
+    showPopup(user) {
+      this.updateUser=user;
+      this.isPopupVisible = true;
+    },
+    cancel() {
+      this.isPopupVisible = false;
+    },
+    confirm(user) {
+      if (this.password.length < 6) {
+        alert('密码长度至少为六位');
+        return;
+      }
+
+      if (this.password !== this.confirmPassword) {
+        alert('两次输入的密码不一致');
+        return;
+      }
+
+      // 执行密码更新的逻辑
+      axios.put(`http://localhost:10100/admin/updatePassword?id=${user.uid}&password=${computeHash(this.password)}`)
+      .then((data)=>{
+        if(data.data.code==200){
+          this.password='';
+          this.confirmPassword='';
+          alert("修改密码成功")
+        }
+      }).catch((error)=>{
+        alert("修改密码失败")
+      });
+
+      this.isPopupVisible = false; // 关闭弹窗
+    }
+
+
+   
   },
 };
 </script>
@@ -318,6 +375,15 @@ export default {
   cursor: pointer;
 }
 
+.update-btn {
+  padding: 5px 10px;
+  background-color: #0091ff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -371,4 +437,34 @@ export default {
   
 
 }
+
+.up {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.up-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.up-content label {
+  text-align: right;
+}
+
+.up-content input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
 </style>
