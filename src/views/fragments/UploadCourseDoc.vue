@@ -1,51 +1,48 @@
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="章节号" prop="chapter">
-        <el-input v-model="form.chapterId"></el-input>
-      </el-form-item>
-      <el-form-item label="课件名" prop="name">
         <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item label="课件描述" prop="description">
-        <el-input v-model="form.description" type="textarea"></el-input>
-      </el-form-item>
-    </el-form>
+        <el-input v-model="form.description"></el-input>
     <input type="file" ref="form.file" @change="onFileChange">
-    <button @click="uploadVideo">上传视频</button>
+    <button @click="upload">上传</button>
   </div>
+  <div>{{ form }}</div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
+import { ref, onMounted, reactive } from 'vue';
 
-export default {
-  data() {
-    return {
-      form: {
+const form = ref({
           chapterId: '',
           courseId: 2,
           name: '',
           description: '',
-      },
-      file: null,
-      uploadUrl: '/api/upload'
-    };
-  },
-  methods: {
-    onFileChange(event) {
-      this.file = event.target.files[0];
-    },
-    uploadVideo() {
+      });
+const file = reactive({ value: null });
+const onFileChange = (event) => {
+      file.value = event.target.files[0];
+};
+
+const props = defineProps(['chapter']);
+
+const initChapterId = () => {
+  form.value.chapterId = props.chapter.no;
+}
+
+const upload = () => {
+  initChapterId();
       var formData = new FormData();
-      formData.append("file", this.file);
-      // 创建一个 FormData 对象
-      // 使用axios或其他HTTP库发送请求
+      formData.append("file", file.value);
       axios(
         {
           method: 'post',
           url: 'http://localhost:10100/upload',
-          params: this.form,
+          params: {
+            chapterId: form.value.chapterId,
+            courseId: form.value.courseId,
+            name: form.value.name,
+            description: form.value.description
+          },
           data: formData
         }
       )
@@ -58,6 +55,5 @@ export default {
           console.error(error);
         });
     }
-  }
-};
+
 </script>
