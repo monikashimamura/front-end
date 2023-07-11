@@ -33,7 +33,7 @@ import { ElCard, ElButton, ElIcon } from 'element-plus';
 import '@fortawesome/fontawesome-free/css/all.css';
 import axios from 'axios';
 import store from "@/store/store.js";
-import uploadLect from "../fragments/UploadCourseDoc.vue";
+import uploadLect from "./UploadCourseDoc.vue";
 
 const showUploadZone = ref(false);
 

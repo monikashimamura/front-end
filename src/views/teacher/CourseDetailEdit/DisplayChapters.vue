@@ -88,7 +88,7 @@ import axios from 'axios';
 import store from "@/store/store.js";
 import '@fortawesome/fontawesome-free/css/all.css';
 
-import cardtestview from "./tmpviews/cardtestview.vue";
+import cardtestview from "./ChapterEditCard.vue";
 
   let    chapterActiveNames = reactive([]);
   let    sectionActiveNames = reactive({});

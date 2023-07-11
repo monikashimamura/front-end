@@ -5,7 +5,7 @@ import axios from 'axios';
 import store from '@/store/store.js';
 import { UserFilled, Lock } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router';
-
+import displayChapters from "./CourseDetailEdit/DisplayChapters.vue";
 
 
 </script>
@@ -20,7 +20,7 @@ import { useRouter } from 'vue-router';
     </div>
 
     <el-card class="main-card">
-        在这里放入章节编辑的页面
+        <displayChapters />
     </el-card>
 </template>
 
@@ -28,4 +28,3 @@ import { useRouter } from 'vue-router';
 @import "default.scss";
 @import "template.scss";
 </style>
-  

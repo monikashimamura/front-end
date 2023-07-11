@@ -11,10 +11,11 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted, reactive } from 'vue';
+import store from '@/store/store.js';
 
 const form = ref({
           chapterId: '',
-          courseId: 2,
+          courseId: store.cid,
           name: '',
           description: '',
       });
