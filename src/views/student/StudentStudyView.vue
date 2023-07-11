@@ -46,7 +46,7 @@
             <p>{{ courseData.scoreRule }}</p>
 
           </div>
-          
+
         </div>
         <div v-if="activeTab === 'tab3'">
           <h2>课件</h2>
@@ -195,7 +195,7 @@ export default {
 .content {
   flex: 1;
   overflow: auto;
-  background-color: #ffffff; 
+  background-color: #ffffff;
   margin-left: 20px; /* 添加内容左侧的间隔 */
   margin-bottom: 20px; /* 添加内容底部的间隔 */
   border-radius: 8px; /* 添加内容区域的圆角 */

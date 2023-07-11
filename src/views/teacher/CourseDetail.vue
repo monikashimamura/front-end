@@ -145,7 +145,7 @@ const uploadImg = (res, file) => {
 					style="font-size: 16px;"></el-input>
             </el-form-item>
         </el-form>
-        
+
         <div class="buttons" v-if="course.isDisabled">
             <el-button  type="primary" size="large" @click="onEdit" style="margin-right: 40px;">编辑</el-button>
             <el-button  type="success" size="large" @click="onLectureDetail" style="margin-right: 40px;">章节详情</el-button>
@@ -175,7 +175,7 @@ const uploadImg = (res, file) => {
 
 .buttons {
     margin-top: 50px;
-   
+
 }
 
 </style>

@@ -13,8 +13,7 @@
 .center {
     display: flex;
     flex-direction: column;
-    margin-right: 20%;
-    margin-left: 20%;
+
 }
 .imagePreview {
     height: 240px;
@@ -34,4 +33,14 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+}
+.unconfirm {
+    width: 60px;
+    height: 30px;
+    background-color: #c5c7c6;
+}
+.confirm {
+    width: 60px;
+    height: 30px;
+    background-color: #43e412;
 }
