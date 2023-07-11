@@ -35,11 +35,12 @@
         </el-collapse-item>
       </el-collapse>
       <div class="custom-collapse add-section section-content" @click="addChapter">
-        <i class="fa-regular fa-square-plus" style="align-self: center;"></i>
+        <i class="fa-regular fa-square-plus ikun" style="align-self: center; color: #1f9eff;"></i>
 
       </div>
     </div>
   </div>
+
   <div class="modal" v-if="showDelConfirmation">
     <div class="modal-content">
       <p>你确定删除章节 {{ tmpOperatedChapter.name }} 吗？</p>
@@ -48,16 +49,34 @@
           <button class="cancel-btn" @click="cancelDeleteChapter">取消</button>
         </div>
         <div class="cfm-ccl-btn">
-          <button class="confirm-btn" @click="confrimDeleteChapter">确定</button>
+          <button class="confirm-btn" @click="confirmDeleteChapter">确定</button>
         </div>
       </div>
     </div>
   </div>
+
   <div class="modal" v-if="showChapterEditor">
     <cardtestview :chapter="tmpOperatedChapter" style="display: block;" />
     <br />
     <div class="cfm-ccl-btn">
-      <button class="confirm-btn" @click="confrimEditChapter" style="display: block;">保存并返回</button>
+      <button class="confirm-btn" @click="confirmEditChapter" style="display: block;">保存并返回</button>
+    </div>
+  </div>
+
+  <div class="modal" v-if="showChapterAdder">
+    <div class="modal-content">
+      <p>请输入章节号（阿拉伯数字）</p>
+      <el-input v-model.number="addChapterData.no" />
+      <p>请输入章节名称</p>
+      <el-input v-model="addChapterData.name" />
+      <div width="100%">
+        <div class="cfm-ccl-btn">
+          <button class="cancel-btn" @click="cancelAddChapter">取消</button>
+        </div>
+        <div class="cfm-ccl-btn">
+          <button class="confirm-btn" @click="confirmAddChapter">确定</button>
+        </div>
+      </div>
     </div>
   </div>
   <div>{{ showDelConfirmation }}</div>
@@ -75,6 +94,7 @@ import cardtestview from "./tmpviews/cardtestview.vue";
   let    sectionActiveNames = reactive({});
   const showDelConfirmation = ref(false);
   const showChapterEditor = ref(false);
+  const showChapterAdder = ref(false);
   let tmpOperatedChapter = ref(null);
   let    chapters = reactive([
   {
@@ -118,12 +138,47 @@ import cardtestview from "./tmpviews/cardtestview.vue";
 const previewType = ref('');
 const previewUrl = ref('');
 
+const addChapterData = ref({
+  no: "",
+  name: ""
+});
+
+const addChapter = () => {
+  showChapterAdder.value = true;
+  console.log("add chapter");
+  addChapterData.value.no = "";
+  addChapterData.value.name = "";
+}
+
+const confirmAddChapter = async () => {
+  await axios({
+    method: 'get',
+    url: store.url + '/addChapter?cid=' + store.cid +
+         '&name=' + encodeURIComponent(addChapterData.value.name) +
+         '&no=' + addChapterData.value.no
+  }).then(
+    res => {
+      if (res.data.code == 200) {
+            alert("添加成功");
+          } else {
+            alert("添加失败");
+      }
+      showChapterAdder.value = false;
+    }
+  );
+  methods.getChapters();
+
+}
+
+const cancelAddChapter = () => {
+  showChapterAdder.value = false;
+  console.log("cancel add chapter");
+}
 
 const sections = () => {
       return this.chapters.flatMap((chapter) => chapter.sections);
     };
   const  methods = {
-
 
     getChapters: async function() {
     await axios({
@@ -148,7 +203,7 @@ const sections = () => {
     tmpOperatedChapter = chapter;
   }
 
-  const confrimEditChapter = () => {
+  const confirmEditChapter = () => {
     showChapterEditor.value = false;
     methods.getChapters();
   }
@@ -163,7 +218,7 @@ const sections = () => {
   const cancelDeleteChapter = () => {
     showDelConfirmation.value = false;
   }
-  const confrimDeleteChapter = async () => {
+  const confirmDeleteChapter = async () => {
     await axios({
         method: 'get',
         url: store.url + '/deleteChapter?cid=' + store.cid + "&no=" + tmpOperatedChapter.no,

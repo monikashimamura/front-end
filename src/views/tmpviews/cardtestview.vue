@@ -12,7 +12,7 @@
               <div class="chapter-title" style="display: inline; margin-left: 10px;">
                 {{  section.name }}
               </div>
-              <div class="delete-button" style="display: inline; margin-left: 20px;" @click.stop="deleteSection(section)">
+              <div class="delete-button" style="display: inline; margin-right: 20px;" @click.stop="deleteSection(section)">
                 <i class="fa-solid fa-trash-can ikun" style="color: #c31818;"></i>
               </div>
             </template>
