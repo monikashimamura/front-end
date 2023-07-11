@@ -4,11 +4,83 @@ import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 import store from '@/store/store.js';
 import { UserFilled, Lock } from '@element-plus/icons-vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
-const bindData = reactive({
-    isEditLecture: true
-})
+const route = useRoute()
+const router = useRouter()
+
+const course = reactive({
+    course: {
+        cid: store.cid,
+        name: "",
+        description: "",
+        start_time: "",
+        teacher: "",
+        scoreRule: "",
+        status: 1,
+        image: "",
+    },
+    isDisabled: true
+});
+
+
+
+const onEdit = () => {
+    course.isDisabled = !course.isDisabled
+    console.log(course.isDisabled)
+}
+
+const onCancel = () => {
+    course.isDisabled = !course.isDisabled
+    init()
+}
+
+const onUpdate = () => {
+    axios({
+        method: 'post',
+        url: store.url + '/course/updateCourse',
+        data: {
+            cid: course.course.cid,
+            name: course.course.name,
+            description: course.course.description,
+            teacher: store.user.uid,
+            score_rule: course.course.scoreRule,
+            status: course.course.status,
+            image: course.course.image
+        },
+    }).then(
+        res => {
+            if (res.data.code == 200) { //更改成功
+                alert(res.data.message)
+                course.isDisabled = !course.isDisabled
+            }
+            else {
+                //保存失败
+                alert(res.data.message)
+            }
+        }
+    )
+}
+
+const onLectureDetail = () => {
+    router.push('/teacher/lecturedetail')
+}
+
+const onExamDetail = () => {
+    router.push('/teacher/examdetail')
+}
+
+const uploadImg = (res, file) => {
+    // 将后端传递给前端的url保存
+    if (res.code == 200) {
+        course.course.image = res.data
+        console.log(res.message)
+        alert(res.message)
+    }
+    else {
+        alert(res.message)
+    }
+}
 
 </script>
 
@@ -21,10 +93,10 @@ const bindData = reactive({
     </div>
 
     <el-card class="main-card">
-        <el-form :model="course.course" label-width="200px" :size="large" :disabled="course.isDisabled">
+        <el-form :model="course.course" label-width="200px" :size="large">
             <el-form-item label="课程封面">
                 <el-image class="imageCourse" :src="course.course.image"></el-image>
-                <el-upload v-if="!course.isDisabled" action="http://127.0.0.1:10100/user/uploadImg" :show-file-list="false"
+                <el-upload action="http://127.0.0.1:10100/user/uploadImg" :show-file-list="false"
                     :on-success="uploadImg">
                     <el-button type="primary" style="margin-left: 50px;">上传文件</el-button>
                 </el-upload>
@@ -45,15 +117,12 @@ const bindData = reactive({
             </el-form-item>
         </el-form>
 
-        <div class="buttons" v-if="course.isDisabled">
-            <el-button type="primary" size="large" @click="onEdit" style="margin-right: 40px;">编辑</el-button>
-            <el-button type="success" size="large" @click="onLectureDetail" style="margin-right: 40px;">章节详情</el-button>
-            <el-button type="danger" size="large" @click="onExamDetail" style="margin-right: 40px;">考试详情</el-button>
-        </div>
-        <div class="buttons" v-else>
+        <div class="buttons">
             <el-button type="default" size="large" @click="onCancel">取消</el-button>
             <el-button type="primary" size="large" @click="onUpdate">保存</el-button>
+            <el-button type="success" size="large" @click="onLectureDetail" style="margin-right: 40px;">章节详情</el-button>
         </div>
+        
     </el-card>
 </template>
 
