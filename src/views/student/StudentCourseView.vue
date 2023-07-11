@@ -80,6 +80,10 @@ const joinUs = (cid) => {
 
 
 }
+
+const back = () => {
+  router.push('/student');
+}
 </script>
 
 <template>
@@ -142,6 +146,8 @@ const joinUs = (cid) => {
       </text>
     </div>
   </div>
+  <div class="height-zhanwei"></div>
+  <el-button class="submit-btn" circle @click="back">返回主页</el-button>
 </template>
 
 
