@@ -16,6 +16,7 @@ const course = reactive({
     status: 1,
     image: "/src/assets/jingjixue.jpg",
   },
+  joined: false
 });
 
 const init = () => {
@@ -26,13 +27,20 @@ const init = () => {
     },
     params: {
       cid: course.course.cid,
+      uid: store.user.uid
     },
   }).then((res) => {
     if (res.data.code == 200) {
-      console.log(res.data);
       course.course = res.data.data.course;
-      course.course.teacher = res.data.data.teacher;
+      course.course.teacher = res.data.data.info.teacher;
       course.course.start_time = res.data.data.course.startTimeStr;
+      console.log(res.data.data);
+      if(res.data.data.info.join == "joined") {
+        course.joined = true;
+      }
+      else {
+        course.joined = false;
+      }
     } else {
       console.log("请求课程详细信息错误");
       console.log(res.data);
@@ -43,9 +51,34 @@ const init = () => {
 onMounted(init);
 
 const startStudy = (cid) => {
-  console.log(cid);
+
   store.cid = cid;
   router.push('study');
+}
+const startExam = (cid) => {
+
+  store.cid = cid;
+  router.push('examPre');
+}
+const joinUs = (cid) => {
+  axios(store.url + "/course/joinCourse", {
+    headers: {
+      Authorization: store.token,
+    },
+    params: {
+      cid: course.course.cid,
+      uid: store.user.uid
+    },
+  }).then((res) => {
+    if (res.status == 200) {
+      course.joined = true;
+    } else {
+      console.log("加入课程出现错误");
+      console.log(res);
+    }
+  });
+
+
 }
 </script>
 
@@ -76,9 +109,18 @@ const startStudy = (cid) => {
       </div>
     </div>
 
-    <div>
+
+    <div v-if="course.joined">
       <el-button class="study-btn"  @click="startStudy(course.course.cid)" round>
         <text class="big-text-front">开始学习</text>
+      </el-button>
+      <el-button class="exam-btn"  @click="startExam(course.course.cid)" round>
+        <text class="big-text-front">考试信息</text>
+      </el-button>
+    </div>
+    <div v-else>
+      <el-button class="join-btn"  @click="joinUs(course.course.cid)" round>
+        <text class="big-text-front">加入课程</text>
       </el-button>
     </div>
   </div>

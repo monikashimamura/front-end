@@ -38,6 +38,10 @@ const router = createRouter({
           component: () => import('../views/student/StudentExamView.vue')
         },
         {
+          path: 'examPre',
+          component: () => import('../views/student/StudentExamPreView.vue')
+        },
+        {
           path: 'game',
           component: () => import('../views/student/StudentGameView.vue')
         },

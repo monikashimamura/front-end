@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, onUnmounted } from "vue";
 import axios from "axios";
 import store from "@/store/store.js";
 import { useRouter } from "vue-router";
@@ -9,7 +9,9 @@ const exam = reactive({
   q: [],
   uid: store.user.uid,
   panjuan: [],
-  eid: 1,
+  eid: store.eid,
+  endTime: store.endTime,
+  timer: null
 });
 const init = () => {
   axios(store.url + "/exam/getQuestion", {
@@ -18,10 +20,11 @@ const init = () => {
     },
     params: {
       eid: exam.eid,
+      uid: exam.uid,
     },
   }).then((res) => {
     if (res.data.code == 200) {
-      //console.log(res.data);
+      console.log(res.data);
       exam.q = res.data.data.questions;
       exam.panjuan = new Array(exam.q.length);
       for (var i = 0; i < exam.q.length; i++) {
@@ -32,7 +35,10 @@ const init = () => {
         exam.panjuan[i] = panjuanItem;
       }
 
-      console.log(exam.panjuan);
+      if (res.data.data.score == "-1") {
+        alert("您已经完成考试！");
+        router.push("course");
+      }
     } else {
       console.log("请求考试题目信息错误");
       console.log(res.data);
@@ -60,13 +66,13 @@ const submit = () => {
     data: exam.panjuan,
     params: {
       eid: exam.eid,
-      uid: exam.uid
+      uid: exam.uid,
     },
-    headers: {'Content-Type': 'application/json; charset=utf-8'}
+    headers: { "Content-Type": "application/json; charset=utf-8" },
   }).then((res) => {
-    console.log("niubi");
     if (res.data.code == 200) {
-      console.log("交卷成功");
+      alert("交卷成功");
+      router.push("course");
     } else {
       console.log("交卷失败");
       alert(res.data.message);
@@ -88,10 +94,43 @@ const getAnswer = (eqid, answer, orde) => {
   // exam.panjuan[orde - 1].uid = exam.uid;
   // console.log(exam.panjuan);
 };
+
+// setInterval(() => {
+//   var nowTime = new Date();
+//   var temp = new Date(exam.endTime);
+//   if (nowTime > temp) {
+//     submit();
+//   }
+// }, 10000);
+
+const autoSubmit = () => {
+  var nowTime = new Date();
+  var temp = new Date(exam.endTime);
+  if (nowTime > temp) {
+    submit();
+  }
+};
+
+onMounted(() => {
+
+  exam.timer = setInterval(() => {
+   autoSubmit();
+  }, 10000);
+});
+
+onUnmounted(() => {
+  clearInterval(exam.timer);
+  exam.timer = null;
+});
 </script>
 
 <template>
   <div class="center">
+    <div>
+      <text class="big-text-front">考试结束时间：</text>
+      <text class="big-text-behind">{{ exam.endTime }}</text>
+    </div>
+    <div class="height-zhanwei"></div>
     <div v-for="que in exam.q" :key="que.id">
       <question :question="que" v-on:listenToAnswer="getAnswer"></question>
     </div>

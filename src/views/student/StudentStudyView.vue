@@ -111,57 +111,6 @@ export default {
 };
 </script>
 
-<<<<<<< HEAD
-<style scoped>
-iframe {
-    display: block;
-    border: none;
-    height: 90vh;
-    width: 100%;
-}
-
-video {
-    display: block;
-    border: none;
-    height: 90vh;
-    width: 100%;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-}
-
-.sidebar {
-  width: 300px;
-}
-
-.preview {
-  flex-grow: 1;
-  margin-right: 20px;
-  max-width: calc(100vw - 340px);
-  height: calc(300vw * 9 / 16);
-}
-
-.custom-collapse {
-  width: 100%;
-}
-
-.nested-collapse {
-  margin-top: 10px;
-}
-
-.section-content {
-  padding: 8px;
-  margin-bottom: 5px;
-  background-color: #f7f9fc;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-=======
 <style>
 #Top {
   width: 100%;
@@ -262,5 +211,4 @@ video {
   background-color: rgb(243, 255, 250);
 }
 
->>>>>>> 46a6799d96a9246eb9125d51138e9590e6a56238
 </style>
