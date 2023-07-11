@@ -150,7 +150,6 @@ const uploadImg = (res, file) => {
             <el-button  type="primary" size="large" @click="onEdit" style="margin-right: 40px;">编辑</el-button>
             <el-button  type="success" size="large" @click="onLectureDetail" style="margin-right: 40px;">章节详情</el-button>
             <el-button  type="danger" size="large" @click="onExamDetail" style="margin-right: 40px;">考试详情</el-button>
-            <el-button  type="info" size="large">学生情况</el-button>
         </div>
         <div class="buttons" v-else>
             <el-button type="default" size="large" @click="onCancel">取消</el-button>

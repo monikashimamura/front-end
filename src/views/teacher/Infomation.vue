@@ -26,6 +26,13 @@ const onSubmit = () => {
     router.push('infoEdit')
 }
 
+const onLogout = () => {
+    var confirmMsg = confirm('确定退出吗？')
+    if (confirmMsg == true) {
+        router.push('/login')
+    }
+}
+
 </script>
 
 <template>
@@ -77,6 +84,7 @@ const onSubmit = () => {
         </el-form>
 
         <el-button type="primary" size="large" @click="onSubmit">修改</el-button>
+        <el-button type="danger" size="large" @click="onLogout">退出登录</el-button>
 
     </el-card>
 </template>

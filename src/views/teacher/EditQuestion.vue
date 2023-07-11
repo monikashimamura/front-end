@@ -260,7 +260,7 @@ const updateQuestions = () => {
             {{ question.qid }}({{ question.score }})
         </el-tag>
 
-        <el-button type="primary" size="large" @click="onPreview" style="margin-left: 100px;">预览</el-button>
+        
         <el-button type="success" size="large" @click="updateQuestions" style="margin-left: 100px;">保存</el-button>
 
         <!-- 添加试题区域 -->

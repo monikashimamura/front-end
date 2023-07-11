@@ -180,7 +180,7 @@ const onNewExam = () => {
                     </div>
                     <div v-else>
                         <el-button type="primary" size="large" @click="onEdit">编辑</el-button>
-                        <el-button type="success" size="large" @click="onEditQuestions">查看试题</el-button>
+                        <el-button type="success" size="large" @click="onEditQuestions">试题编辑</el-button>
                         <el-button type="danger" size="large" @click="onDelete">删除</el-button>
                     </div>
 
