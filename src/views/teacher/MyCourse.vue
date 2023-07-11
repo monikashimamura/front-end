@@ -53,7 +53,7 @@ onMounted(getAllCourse);
             <el-breadcrumb-item>我的课程</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
-    <div>{{ courses }}</div>
+
 
 
     <div class="main-card">

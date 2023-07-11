@@ -38,6 +38,10 @@ const router = createRouter({
           component: () => import('../views/student/StudentExamView.vue')
         },
         {
+          path: 'examPre',
+          component: () => import('../views/student/StudentExamPreView.vue')
+        },
+        {
           path: 'game',
           component: () => import('../views/student/StudentGameView.vue')
         },
@@ -81,6 +85,26 @@ const router = createRouter({
           path: '/teacher/coursedetail',
           name: 'coursedetail',
           component: () => import('../views/teacher/CourseDetail.vue')
+        },
+        {
+          path: '/teacher/examdetail',
+          name: 'examdetail',
+          component: () => import('../views/teacher/ExamDetail.vue')
+        },
+        {
+          path: '/teacher/editquestions',
+          name: 'editquestions',
+          component: () => import('../views/teacher/EditQuestion.vue')
+        },
+        {
+          path: '/teacher/addexam',
+          name: 'addexam',
+          component: () => import('../views/teacher/AddExam.vue')
+        },
+        {
+          path: '/teacher/lecturedetail',
+          name: 'lecturedetail',
+          component: () => import('../views/teacher/LectureDetail.vue')
         },
         {
           path: '/teacher/itembank',

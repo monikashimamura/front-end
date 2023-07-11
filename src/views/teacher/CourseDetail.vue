@@ -7,6 +7,7 @@ import { UserFilled, Lock } from '@element-plus/icons-vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
+const router = useRouter()
 
 const course = reactive({
     course: {
@@ -88,6 +89,14 @@ const onUpdate = () => {
     )
 }
 
+const onLectureDetail = () => {
+    router.push('/teacher/lecturedetail')
+}
+
+const onExamDetail = () => {
+    router.push('/teacher/examdetail')
+}
+
 const uploadImg = (res, file) => {
     // 将后端传递给前端的url保存
     if (res.code == 200) {
@@ -136,14 +145,13 @@ const uploadImg = (res, file) => {
 					style="font-size: 16px;"></el-input>
             </el-form-item>
         </el-form>
-        
-        <div v-if="course.isDisabled">
+
+        <div class="buttons" v-if="course.isDisabled">
             <el-button  type="primary" size="large" @click="onEdit" style="margin-right: 40px;">编辑</el-button>
-            <el-button  type="success" size="large" @click="onEdit" style="margin-right: 40px;">章节详情</el-button>
-            <el-button  type="danger" size="large" style="margin-right: 40px;">考试详情</el-button>
-            <el-button  type="info" size="large">学生情况</el-button>
+            <el-button  type="success" size="large" @click="onLectureDetail" style="margin-right: 40px;">章节详情</el-button>
+            <el-button  type="danger" size="large" @click="onExamDetail" style="margin-right: 40px;">考试详情</el-button>
         </div>
-        <div v-else>
+        <div class="buttons" v-else>
             <el-button type="default" size="large" @click="onCancel">取消</el-button>
             <el-button type="primary" size="large" @click="onUpdate">保存</el-button>
         </div>
@@ -161,7 +169,13 @@ const uploadImg = (res, file) => {
 
 .el-form {
     width: 800px;
-    margin-left: 100px;
+    margin-top: 50px;
+    margin-left: 300px;
+}
+
+.buttons {
+    margin-top: 50px;
+
 }
 
 </style>

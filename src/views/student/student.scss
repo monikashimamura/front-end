@@ -40,7 +40,7 @@
 }
 .right {
     float: right;
-    margin-right: 0%;
+    margin-right: 5%;
 }
 .top-btn {
     width: 5%;
@@ -48,11 +48,29 @@
     margin: 10px auto;
     background-color: #ffd04b;
 }
-.study-btn {
+.join-btn {
     width: 200px;
     height: 200px;
-    margin: 60px auto;
+    margin: 30px auto;
+    background-color: #49c539;
+}
+.study-btn {
+    width: 200px;
+    height: 150px;
+    margin: 30px auto;
     background-color: #39c5bb;
+}
+.exam-btn {
+    width: 200px;
+    height: 150px;
+    margin: 30px auto;
+    background-color: #a568c9;
+}
+.submit-btn {
+    width: 80px;
+    height: 40px;
+    background-color: #39c5bb;
+
 }
 .imageCourse {
     height: 384px;

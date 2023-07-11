@@ -22,6 +22,10 @@ export default {
       <el-image class="imagePreview" :src="course.course.image" @click="lookCourse(course.course.cid)"></el-image>
     </router-link>
     <div>
+      <el-text size="large" type="info">课程名：</el-text>
+      <el-text size="large" type="success">{{ course.course.name }}</el-text>
+    </div>
+    <div>
       <el-text size="large" type="info">授课教师：</el-text>
       <el-text size="large" type="primary">{{ course.teacher }}</el-text>
     </div>
