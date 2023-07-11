@@ -189,7 +189,7 @@ const search = () => {
         <el-text type="warning" size="large">课程</el-text>
       </el-menu-item>
       <div class="width-zhanwei"></div>
-      <el-menu-item index="2">
+      <!-- <el-menu-item index="2">
         <el-icon><Medal /></el-icon>
         <el-text type="warning" size="large" @click="toGame">答题</el-text>
       </el-menu-item>
@@ -197,7 +197,7 @@ const search = () => {
       <el-menu-item index="3">
         <el-icon><Trophy /></el-icon>
         <el-text type="warning" size="large" @click="toExam">考试</el-text>
-      </el-menu-item>
+      </el-menu-item> -->
 
       <div class="search-input">
         <el-input
@@ -223,7 +223,7 @@ const search = () => {
   </div>
 
   <h2 v-if="stuHome.courseRecommend">课程推荐</h2>
-  <div style="display: flex" v-if="stuHome.courseRecommend">
+  <div style="display: flex; margin-left: 5%; margin-right: 10%" v-if="stuHome.courseRecommend">
     <div class="inline">
       <course-Preview :course="stuHome.coursePre[0]"></course-Preview>
       <course-Preview :course="stuHome.coursePre[1]"></course-Preview>
@@ -241,7 +241,7 @@ const search = () => {
   </div>
 
   <h2>广告</h2>
-  <div style="display: flex">
+  <div style="display: flex; margin-left: 7%; margin-right: 10%">
     <Ad :ad="stuHome.ad[0]"></Ad>
     <Ad :ad="stuHome.ad[1]"></Ad>
     <Ad :ad="stuHome.ad[2]"></Ad>
